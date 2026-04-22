@@ -189,3 +189,35 @@ Detailed monitoring page for each resource.
 ├── vite.config.js
 └── README.md
 ```
+
+
+## 🤝 Contributing
+
+Thank you for your interest in contributing to **CloudOps Dashboard**.
+
+We welcome contributions that help improve the project, fix bugs, enhance UI/UX, or introduce new features.
+
+### Steps to Contribute
+
+#### 1. Fork the Repository
+Click the **Fork** button on the top-right corner of this repository.
+
+#### 2. Clone Your Fork
+```bash
+git clone https://github.com/your-username/CloudOps_Dashboard.git
+
+3. Navigate to Project Directory
+cd CloudOps_Dashboard
+4. Create a New Branch
+git checkout -b feature/your-feature-name
+5. Install Dependencies
+npm install
+6. Make Your Changes
+
+Add your improvements, bug fixes, or new features.
+
+7. Commit Changes
+git add .
+git commit -m "Added new feature"
+8. Push Changes
+git push origin feature/your-feature-name
