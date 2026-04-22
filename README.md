@@ -22,7 +22,7 @@ This project allows users to create, manage, monitor, and analyze cloud resource
 ---
 
 ### Resource Management
-![Resource List](./cloudops/cloudops/src/assets/ResourceList.png)
+![Resource List](./cloudops/src/assets/ResourceList.png)
 - Add new cloud resources
 - Create server instances
 - Create database resources
@@ -36,7 +36,7 @@ This project allows users to create, manage, monitor, and analyze cloud resource
 ---
 
 ### Resource Details
-![Resource Details](./cloudops/cloudops/src/assets/ResourceDetails.png)
+![Resource Details](./cloudops/src/assets/ResourceDetails.png)
 - View detailed information of each resource
 - Live CPU metrics
 - Memory metrics
@@ -73,49 +73,49 @@ Shows resource analytics, live monitoring, and system overview.
 ### 2. Cost Analytics Dashboard
 Displays cost forecasting and resource cost breakdown.
 
-![Cost Dashboard](./cloudops/cloudops/src/assets/Dashboard2.png)
+![Cost Dashboard](./cloudops/src/assets/Dashboard2.png)
 
 ---
 
 ### 3. Infrastructure Health
 Shows region distribution, health monitoring, and activity logs.
 
-![Infrastructure](./cloudops/cloudops/src/assets/Infra.png)
+![Infrastructure](./cloudops/src/assets/Infra.png)
 
 ---
 
 ### 4. Create Database
 Create new database resources.
 
-![Create Database](./cloudops/cloudops/src/assets/CreatingDB.png)
+![Create Database](./cloudops/src/assets/CreatingDB.png)
 
 ---
 
 ### 5. Create Server
 Launch new server resources.
 
-![Create Server](./cloudops/cloudops/src/assets/creatingServer.png)
+![Create Server](./cloudops/src/assets/creatingServer.png)
 
 ---
 
 ### 6. Resource List
 Displays all available resources.
 
-![Resource List](./cloudops/cloudops/src/assets/ResourceList.png)
+![Resource List](./cloudops/src/assets/ResourceList.png)
 
 ---
 
 ### 7. Edit Resource
 Update resource details.
 
-![Edit Resource](./cloudops/cloudops/src/assets/EditResource.png)
+![Edit Resource](./cloudops/src/assets/EditResource.png)
 
 ---
 
 ### 8. Resource Details
 Detailed monitoring page for each resource.
 
-![Resource Details](./cloudops/cloudops/src/assets/ResourceDetails.png)
+![Resource Details](./cloudops/src/assets/ResourceDetails.png)
 
 ## 📂 Project Structure
 
