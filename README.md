@@ -9,6 +9,7 @@ This project allows users to create, manage, monitor, and analyze cloud resource
 ## 🚀 Features
 
 ### Dashboard Analytics
+![Dashboard Overview](./cloudops/src/assets/Dashboard1.png)
 - Real-time resource usage monitoring
 - CPU usage tracking
 - Cost forecasting chart
@@ -21,6 +22,7 @@ This project allows users to create, manage, monitor, and analyze cloud resource
 ---
 
 ### Resource Management
+![Resource List](./cloudops/cloudops/src/assets/ResourceList.png)
 - Add new cloud resources
 - Create server instances
 - Create database resources
@@ -34,6 +36,7 @@ This project allows users to create, manage, monitor, and analyze cloud resource
 ---
 
 ### Resource Details
+![Resource Details](./cloudops/cloudops/src/assets/ResourceDetails.png)
 - View detailed information of each resource
 - Live CPU metrics
 - Memory metrics
@@ -63,56 +66,56 @@ This project allows users to create, manage, monitor, and analyze cloud resource
 ### 1. Dashboard Overview
 Shows resource analytics, live monitoring, and system overview.
 
-![Dashboard Overview](./src/assets/Dashboard1.png)
+![Dashboard Overview](./cloudops/src/assets/Dashboard1.png)
 
 ---
 
 ### 2. Cost Analytics Dashboard
 Displays cost forecasting and resource cost breakdown.
 
-![Cost Dashboard](./src/assets/Dashboard2.png)
+![Cost Dashboard](./cloudops/cloudops/src/assets/Dashboard2.png)
 
 ---
 
 ### 3. Infrastructure Health
 Shows region distribution, health monitoring, and activity logs.
 
-![Infrastructure](./src/assets/Infra.png)
+![Infrastructure](./cloudops/cloudops/src/assets/Infra.png)
 
 ---
 
 ### 4. Create Database
 Create new database resources.
 
-![Create Database](./src/assets/CreatingDB.png)
+![Create Database](./cloudops/cloudops/src/assets/CreatingDB.png)
 
 ---
 
 ### 5. Create Server
 Launch new server resources.
 
-![Create Server](./src/assets/creatingServer.png)
+![Create Server](./cloudops/cloudops/src/assets/creatingServer.png)
 
 ---
 
 ### 6. Resource List
 Displays all available resources.
 
-![Resource List](./src/assets/ResourceList.png)
+![Resource List](./cloudops/cloudops/src/assets/ResourceList.png)
 
 ---
 
 ### 7. Edit Resource
 Update resource details.
 
-![Edit Resource](./src/assets/EditResource.png)
+![Edit Resource](./cloudops/cloudops/src/assets/EditResource.png)
 
 ---
 
 ### 8. Resource Details
 Detailed monitoring page for each resource.
 
-![Resource Details](./src/assets/ResourceDetails.png)
+![Resource Details](./cloudops/cloudops/src/assets/ResourceDetails.png)
 
 ## 📂 Project Structure
 
