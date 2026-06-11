@@ -15,7 +15,11 @@ export default function ResourceList() {
   const [statusFilter, setStatusFilter] = useState("all")
 
   const filteredResources = resources
-    .filter((r) => r.name.toLowerCase().includes(search.toLowerCase()))
+    .filter((r) =>
+      r.name.toLowerCase().includes(search.toLowerCase()) ||
+      r.storageType?.toLowerCase().includes(search.toLowerCase()) ||
+      r.capacity?.toString().includes(search.toLowerCase())
+    )
     .filter((r) => typeFilter === "all" ? true : r.type === typeFilter)
     .filter((r) => statusFilter === "all" ? true : r.status === statusFilter)
 
@@ -77,6 +81,7 @@ export default function ResourceList() {
             <option value="all">All types</option>
             <option value="server">Server</option>
             <option value="database">Database</option>
+            <option value="storage">Storage</option>
           </select>
 
           <select
@@ -88,6 +93,7 @@ export default function ResourceList() {
             <option value="all">All status</option>
             <option value="running">Running</option>
             <option value="stopped">Stopped</option>
+            <option value="storage">Storage</option>
           </select>
 
           {hasActiveFilters && (

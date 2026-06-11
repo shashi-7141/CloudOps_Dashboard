@@ -1,113 +1,142 @@
 import { createContext, useContext, useState, useEffect } from "react"
 import { useLogs } from "./LogContext"
+import { useAuth } from "./AuthContext"
+
 import {
-  getResources,
-  createResource,
-  updateResourceAPI,
-  deleteResourceAPI
-} from "../services/api"
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  updateDoc,
+  doc,
+  query,
+  where
+} from "firebase/firestore"
+
+import { db } from "../firebase"
 
 export const ResourceContext = createContext()
 
 export function ResourceProvider({ children }) {
   const { addLog } = useLogs()
+  const { user, isAdmin } = useAuth()
 
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    setLoading(true)
+  const fetchResources = async () => {
+    if (!user) return
 
-    getResources()
-      .then((data) => {
-        setResources(data)
-        setError(null)
-      })
-      .catch(() => {
-        setError("Failed to load resources")
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [])
+    try {
+      setLoading(true)
 
-  useEffect(() => {
-    localStorage.setItem("resources", JSON.stringify(resources))
-  }, [resources])
+      let q
 
-  const addResource = (data) => {
-    const newResource = {
-      id:
-        data.type === "server"
-          ? `srv-${Math.floor(Math.random() * 10000)}`
-          : `db-${Math.floor(Math.random() * 10000)}`,
-      ...data,
-      tags: data.tags || [],
-      status: "running",
-      health: "healthy",
-      createdAt: new Date().toISOString()
+      if (isAdmin) {
+        q = collection(db, "resources")
+      } else {
+        q = query(
+          collection(db, "resources"),
+          where("ownerId", "==", user.uid)
+        )
+      }
+
+      const snapshot = await getDocs(q)
+
+      const data = snapshot.docs.map((doc) => ({
+        docId: doc.id,
+        ...doc.data()
+      }))
+
+      setResources(data)
+      setError(null)
+    } catch (err) {
+      console.log(err)
+      setError("Failed to load resources")
+    } finally {
+      setLoading(false)
     }
-    setResources([...resources, newResource])
-    addLog(`Resource ${data.name} created`, newResource.id)
-
   }
 
-  const deleteResource = (id) => {
+  useEffect(() => {
+    fetchResources()
+  }, [user, isAdmin])
 
-    const confirmDelete = window.confirm("Are you sure you want to delete this resource?")
+  const addResource = async (data) => {
+    try {
+      const newResource = {
+        id:
+          data.type === "server"
+            ? `srv-${Math.floor(Math.random() * 10000)}`
+            : `db-${Math.floor(Math.random() * 10000)}`,
+        ...data,
+        tags: data.tags || [],
+        status: "running",
+        health: "healthy",
+        ownerId: user.uid,
+        createdAt: new Date().toISOString()
+      }
+
+      await addDoc(collection(db, "resources"), newResource)
+
+      addLog(`Resource ${data.name} created`)
+      fetchResources()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const deleteResource = async (docId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this resource?"
+    )
     if (!confirmDelete) return
 
-    const resource = resources.find((r) => r.id === id)
+    const resource = resources.find((r) => r.docId === docId)
 
-    addLog(`Resource ${resource.name} deleted`, resource.id)
+    await deleteDoc(doc(db, "resources", docId))
 
-    setResources(resources.filter((r) => r.id !== id))
-  }
-  const deleteAllResources = () => {
-    setResources([])
-    addLog("All resources deleted")
+    addLog(`Resource ${resource.name} deleted`)
+    fetchResources()
   }
 
+  const updateResource = async (updated) => {
+    const resourceRef = doc(db, "resources", updated.docId)
 
-  const updateResource = (updated) => {
+    await updateDoc(resourceRef, updated)
 
-    const oldResource = resources.find((r) => r.id === updated.id)
-
-    setResources(
-      resources.map((r) =>
-        r.id === updated.id ? updated : r
-      )
-    )
-
-    if (oldResource.cost !== updated.cost) {
-      addLog(`Cost updated for ${updated.name}`, updated.id)
-    } else {
-      addLog(`Resource ${updated.name} updated`, updated.id)
-    }
-
+    addLog(`Resource ${updated.name} updated`)
+    fetchResources()
   }
 
-  const toggleStatus = (id) => {
-    setResources(
-      resources.map((r) => {
-        if (r.id === id) {
+  const toggleStatus = async (docId) => {
+    const resource = resources.find((r) => r.docId === docId)
 
-          const newStatus = r.status === "running" ? "stopped" : "running"
+    if (!resource) return
 
-          addLog(`Resource ${r.name} ${newStatus}`,r.id)
+    const newStatus =
+      resource.status === "running" ? "stopped" : "running"
 
-          return { ...r, status: newStatus }
-        }
+    await updateDoc(doc(db, "resources", docId), {
+      status: newStatus
+    })
 
-        return r
-      })
-    )
+    addLog(`Resource ${resource.name} ${newStatus}`)
+    fetchResources()
   }
 
   return (
     <ResourceContext.Provider
-      value={{ resources, addResource, deleteResource, updateResource,loading, error, toggleStatus }}
+      value={{
+        resources,
+        addResource,
+        deleteResource,
+        updateResource,
+        toggleStatus,
+        loading,
+        error
+      }}
     >
       {children}
     </ResourceContext.Provider>

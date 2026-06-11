@@ -8,8 +8,10 @@ export default function ResourceForm({ onAdd, editingResource, onUpdate, onClose
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors }
   } = useForm()
+  const selectedType = watch("type")
 
   useEffect(() => {
     if (editingResource) {
@@ -115,6 +117,7 @@ export default function ResourceForm({ onAdd, editingResource, onUpdate, onClose
             >
               <option value="server">Server</option>
               <option value="database">Database</option>
+              <option value="storage">Storage</option>
             </select>
           </div>
 
@@ -137,7 +140,52 @@ export default function ResourceForm({ onAdd, editingResource, onUpdate, onClose
               <option value="asia">Asia</option>
             </select>
           </div>
+            {selectedType === "storage" && (
+              <>
+                {/* Storage Type */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                    Storage Type
+                  </label>
+                  <select
+                    {...register("storageType")}
+                    className="border border-gray-200 dark:border-gray-700 px-3 py-2 rounded-lg text-sm bg-white dark:bg-gray-800"
+                  >
+                    <option value="object">Object Storage</option>
+                    <option value="block">Block Storage</option>
+                    <option value="file">File Storage</option>
+                  </select>
+                </div>
 
+                {/* Capacity */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                    Capacity
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    {...register("capacity")}
+                    placeholder="Enter storage capacity"
+                    className="border border-gray-200 dark:border-gray-700 px-3 py-2 rounded-lg text-sm bg-white dark:bg-gray-800"
+                  />
+                </div>
+
+                {/* Storage Unit */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                    Storage Unit
+                  </label>
+                  <select
+                    {...register("storageUnit")}
+                    className="border border-gray-200 dark:border-gray-700 px-3 py-2 rounded-lg text-sm bg-white dark:bg-gray-800"
+                  >
+                    <option value="GB">GB</option>
+                    <option value="TB">TB</option>
+                  </select>
+                </div>
+              </>
+            )}
           {/* Cost */}
           <div className="flex flex-col gap-1.5">
             <label

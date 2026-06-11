@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Server, Database, X, Zap } from "lucide-react"
 
 export default function QuickActions() {
-  const { addResource } = useResources()
+  const { resources, addResource } = useResources()
 
   const [open, setOpen] = useState(false)
   const [selectedAction, setSelectedAction] = useState(null)
@@ -11,6 +11,18 @@ export default function QuickActions() {
   const [cost, setCost] = useState("")
   const [region, setRegion] = useState("us-east")
   const [error, setError] = useState("")
+
+  const totalStorageResources = resources.filter(
+  (r) => r.type === "storage"
+  ).length
+
+  const totalStorageCapacity = resources
+    .filter((r) => r.type === "storage")
+    .reduce((sum, r) => sum + (r.capacity || 100), 0)
+
+  const totalStorageCost = resources
+    .filter((r) => r.type === "storage")
+    .reduce((sum, r) => sum + (r.cost || 0), 0)
 
   const actions = [
     {
@@ -117,6 +129,26 @@ export default function QuickActions() {
             className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 w-full max-w-sm mx-4 overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 border-l-[3px] border-l-purple-500 px-4 py-3 rounded-r-lg">
+              <p className="text-xs text-gray-400 mb-1">Storage Resources</p>
+              <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                {totalStorageResources} Storage Units
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 border-l-[3px] border-l-indigo-500 px-4 py-3 rounded-r-lg">
+              <p className="text-xs text-gray-400 mb-1">Total Storage Capacity</p>
+              <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                {totalStorageCapacity} GB
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 border-l-[3px] border-l-green-500 px-4 py-3 rounded-r-lg">
+              <p className="text-xs text-gray-400 mb-1">Storage Cost</p>
+              <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                ${totalStorageCost}/month
+              </p>
+            </div>
             {/* Modal header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800">
               <div className="flex items-center gap-2.5">

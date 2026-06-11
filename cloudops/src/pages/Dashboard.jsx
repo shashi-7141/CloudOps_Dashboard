@@ -17,6 +17,20 @@ export default function Dashboard() {
   )
   const running = resources.filter((r) => r.status === "running").length
 
+  const storageResources = resources.filter(
+  (r) => r.type === "storage"
+  )
+
+  const totalStorageResources = storageResources.length
+
+  const totalStorageCapacity = storageResources.reduce((total, resource) => {
+    return total + (Number(resource.capacity) || 0)
+  }, 0)
+
+  const totalStorageCost = storageResources.reduce((total, resource) => {
+    return total + (Number(resource.cost) || 0)
+  }, 0)
+
   return (
     <div className="flex flex-col gap-8 p-5 max-w-7xl mx-auto w-full">
 

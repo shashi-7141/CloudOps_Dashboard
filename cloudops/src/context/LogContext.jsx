@@ -13,17 +13,26 @@ export function LogProvider({ children }) {
     localStorage.setItem("activityLogs", JSON.stringify(logs))
   }, [logs])
 
-  const addLog = (action, resourceId) => {
+  // Updated log function
+  const addLog = (
+    action,
+    resourceId = null,
+    resourceName = "-",
+    user = "Admin"
+  ) => {
 
     const newLog = {
       id: Date.now(),
       action,
       resourceId,
-      time: new Date().toLocaleString()
+      resourceName,
+      user,
+      timestamp: new Date().toLocaleString()
     }
 
     setLogs((prev) => [newLog, ...prev])
   }
+
   const clearLogs = () => {
     setLogs([])
   }

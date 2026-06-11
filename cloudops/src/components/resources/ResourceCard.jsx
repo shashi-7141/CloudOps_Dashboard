@@ -1,13 +1,15 @@
-import { Server, Database, Trash2, Edit } from "lucide-react" 
+import { Server, Database, HardDrive, Trash2, Edit } from "lucide-react" 
 import { useResources } from "../../context/ResourceContext"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext"
 
 export default function ResourceCard({ resource, onDelete, onEdit }) {
 
   const { toggleStatus } = useResources()
+  const { isAdmin } = useAuth()
   const navigate = useNavigate()
 
-  const Icon = resource.type === "server" ? Server : Database
+const Icon = resource.type === "server" ? Server : resource.type === "database" ? Database : HardDrive
 
   const statusColor =
     resource.status === "running"
@@ -71,6 +73,17 @@ export default function ResourceCard({ resource, onDelete, onEdit }) {
           <p className="text-xs font-medium text-green-500 mt-1">
             Cost: ${resource.cost || 0} / month
           </p>
+          {resource.type === "storage" && (
+            <div className="mt-2 space-y-1">
+              <p className="text-xs text-blue-500 font-medium">
+                Storage Type: {resource.storageType || "N/A"}
+              </p>
+
+              <p className="text-xs text-purple-500 font-medium">
+                Capacity: {resource.capacity || 0} {resource.storageUnit || ""}
+              </p>
+            </div>
+        )}
 
         </div>
 
@@ -81,9 +94,20 @@ export default function ResourceCard({ resource, onDelete, onEdit }) {
         <button
           onClick={(e) => {
             e.stopPropagation()
-            toggleStatus(resource.id)
+
+            if (isAdmin) {
+              toggleStatus(
+                resource.docId,
+                resource.status === "running" ? "stopped" : "running"
+              )
+            }
           }}
-          className="text-xs font-medium px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
+          disabled={!isAdmin}
+          className={`text-xs font-medium px-2 py-1 rounded ${
+            isAdmin
+              ? "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
+              : "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
+          }`}
         >
           {resource.status === "running" ? "Stop" : "Start"}
         </button>
@@ -93,7 +117,12 @@ export default function ResourceCard({ resource, onDelete, onEdit }) {
             e.stopPropagation()
             onEdit(resource)
           }}
-          className="p-2 hover:bg-gray-100 rounded"
+          disabled={!isAdmin}
+          className={`p-2 hover:bg-gray-100 rounded ${
+            isAdmin
+              ? "text-gray-600 dark:text-gray-400"
+              : "text-gray-400 cursor-not-allowed"
+          }`}
         >
           <Edit size={16} />
         </button>
@@ -101,7 +130,7 @@ export default function ResourceCard({ resource, onDelete, onEdit }) {
         <button
           onClick={(e) => {
             e.stopPropagation()
-            onDelete(resource.id)
+            onDelete(resource.docId)
           }}
           className="p-2 hover:bg-red-100 rounded text-red-500"
         >

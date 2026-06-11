@@ -81,23 +81,38 @@ export default function Sidebar() {
 
         {isOpen && (
           <>
-            <p className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-500 px-2 pt-4 pb-1">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-500 px-2 pt-4 pb-2">
               Monitor
             </p>
 
-            <div className="px-2 py-2 rounded-md text-sm text-gray-400 dark:text-gray-600 cursor-not-allowed flex items-center gap-2.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-red-400"></div>
-              Alerts
-            </div>
+            <div
+              className="mx-1 p-3 rounded-2xl
+              bg-white/70 dark:bg-gray-900/40
+              backdrop-blur-lg
+              border border-white/20 dark:border-gray-700/50
+              shadow-lg shadow-gray-200/80 dark:shadow-black/20
+              space-y-3"
+            >
+              <NavLink
+                to="/alerts"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                Alerts
+              </NavLink>
 
-            <div className="px-2 py-2 rounded-md text-sm text-gray-400 dark:text-gray-600 cursor-not-allowed flex items-center gap-2.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
-              Logs
-            </div>
+              <NavLink
+                to="/logs"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                Logs
+              </NavLink>
 
-            <div className="px-2 py-2 rounded-md text-sm text-gray-400 dark:text-gray-600 cursor-not-allowed flex items-center gap-2.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
-              Cost Explorer
+              <NavLink
+                to="/cost-explorer"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                Cost Explorer
+              </NavLink>
             </div>
           </>
         )}
@@ -126,9 +141,19 @@ export default function Sidebar() {
             <button className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 py-1">
               <Settings size={13} /> Settings
             </button>
-            <button className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 py-1">
-              <CreditCard size={13} /> Billing
-            </button>
+            <NavLink
+              to="/billing"
+              className={({ isActive }) =>
+                `flex items-center gap-2 text-xs py-1 transition-colors ${
+                  isActive
+                    ? "text-blue-600 dark:text-blue-400 font-medium"
+                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                }`
+              }
+            >
+              <CreditCard size={13} />
+              Billing
+            </NavLink>
           </div>
         </div>
       )}
